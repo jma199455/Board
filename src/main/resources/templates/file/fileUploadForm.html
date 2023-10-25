@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>파일 업로드</h3>
+<form id="fileUploadForm" method="post" action="/upload/fileUpload" enctype="multipart/form-data">
+    파일 : <input type="file" id="uploadFile" name="uploadFile"><br><br>
+    <input type="submit" value="업로드">
+
+    <span>[[${data.originalFileName}]]</span>
+</form>
+</body>
+</html>
