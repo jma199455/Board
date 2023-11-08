@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>fileUploadResult.html</h1>
+    <p><span th:text="${originalFileName}"></span>파일을 업로드 하였습니다.</p><br>
+    서버에만 출력 C:\develop\test6 확인<br>
+    파일명 : [[${originalFileName}]]
+
+
+    <!--안불러짐-->
+    데이터 확인 : <span th:text="${data}">값</span>
+    <div th:each="item : ${data}">
+        <div th:text="${item.originalFileName}"></div>
+    </div>
+    <div>확인 ㅁㅁ</div>
+</body>
+</html>
