@@ -33,6 +33,7 @@ dependencies {
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools' // 정적 리소스를 바로 적용
 	implementation 'org.springframework.boot:spring-boot-starter-validation' // validation
+	implementation group: 'org.json', name: 'json', version: '20231013'
 }
 
 tasks.named('test') {

@@ -4,7 +4,14 @@ import board.vo.FileDto;
 import board.vo.FileVO;
 import board.vo.LoginForm;
 import board.vo.Member;
+import ch.qos.logback.core.net.SyslogOutputStream;
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.util.MapUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ContentDisposition;
@@ -17,16 +24,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
+import org.thymeleaf.util.MapUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Logger;
 
 @Controller
@@ -358,7 +366,6 @@ public class FileController {
         return "file/fileUploadForm4";
     }
 
-
     @PostMapping("/upload")
     public String upload(@RequestParam("uploadFile") MultipartFile file, Model model) throws IOException { // 리다이렉트확인 RedirectAttributes redirectAttributes 사용
 
@@ -388,18 +395,6 @@ public class FileController {
         model.addAttribute("originalFileName",originalFileName);
         return "file/fileUploadResult";
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
