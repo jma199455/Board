@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<script th:inline="javascript">
+
+  $(document).ready(function(){
+
+    console.log("check");
+
+  });
+
+
+
+  // 넘어온 문자를 자르고 크기만큼 자열을 자름
+  function strCheck(){
+    var str = $('#str').val();
+    var str_length = $('#str_length').val();
+
+    var total_length = totalCheck(str); // 변환할 총 길이
+    var str_place = placeCheck(str,str_length,total_length); // 자른 값
+
+    $("[name=TOTAL_LENGTH]").val(total_length);
+    $("[name=replace_str]").val(str_place);
+
+    //$('input[name=TOTAL_LENGTH]').attr('value',total_length);
+    //$('input[name=replace_str]').attr('value',str_place);
+  }
+  // 넘어온 문자에서 넘어온 크기만큼 문자열을 자름
+  function placeCheck(str,str_length,total_length){
+
+    var pattern1 = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+    var pattern2 = /[A-Z]/;
+
+    var strLength = 0; // 변환된 길이 값
+    var strPlace =""; // 자른 문자열 값
+    //var i = 0;
+
+    //자른 문자열 < 자를 문자열 크기
+
+    // strLength 변환된 길이 값
+    // str_length 자르고 싶은 길이
+    for (let i=0; strLength < str_length; i++) {
+      console.log("str_length : " + str_length);
+      console.log("strLength : " + strLength);
+      if(total_length < str_length){
+        // 자를 크기가 문자열의 크기보다 클경우 문자열 크기로 초기화
+        str_length = total_length;
+        alert("최대 자를 수 있는 문자열 크기는"+total_length+"입니다.");
+      }
+
+      //console.log("pattern1.test(str[i]) : " + str[i]);
+      //console.log("pattern2.test(str[i]) : " + str[i]);
+
+      console.log("check1 : " + strLength);
+      console.log("check2 : " + str_length);
+      if( pattern1.test(str[i]) || pattern2.test(str[i]) ){ //한글, 대문자 일경우
+
+        if((strLength+2) > str_length){ // 자르고싶은 길이보다 변환된 길이값이 큰경우??
+          break;
+        }
+
+        strLength += 2;
+        strPlace += str[i];
+
+      }else { //나머지 문자
+        strLength +=1;
+        strPlace += str[i];
+      }
+    }
+
+    /*
+    while(strLength < str_length) // 변환될 길이 증가 < 요청 String 길이
+    {
+      console.log("str_length : " + str_length);
+      console.log("strLength : " + strLength);
+      if(total_length < str_length){
+        // 자를 크기가 문자열의 크기보다 클경우 문자열 크기로 초기화
+        str_length = total_length;
+        alert("최대 자를 수 있는 문자열 크기는"+total_length+"입니다.");
+      }
+
+      console.log("pattern1.test(str[i]) : " + str[i]);
+      console.log("pattern2.test(str[i]) : " + str[i]);
+
+      if( pattern1.test(str[i]) || pattern2.test(str[i]) ){ //한글, 대문자 일경우
+        if((strLength+2) > str_length){
+          break;
+        }
+        strLength += 2;
+        strPlace += str[i];
+      }else { //나머지 문자
+        strLength +=1;
+        strPlace += str[i];
+      }
+      i++;
+    }
+    */
+
+
+
+
+
+
+    return strPlace;
+  }
+  // 넘어온 문자 자르고 변환된 길이 반환
+  function totalCheck(str){
+    var ko=str.replace(/[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g,''); //한글만
+    var eng_b=str.replace(/[^A-Z]/g,''); // 영어 대문자만
+
+    var ko_length = (ko.length * 2); // 한글
+    var eng_b_length = (eng_b.length * 2); // 영어대문자
+    var restData_length= str.length - ko.length - eng_b.length; // 나머지
+
+    //변환된 총 길이
+    var total_length = ko_length + eng_b_length + restData_length;
+
+    $('[name=ko]').val(ko_length);
+    $('[name=eng_b]').val(eng_b_length);
+    $('[name=restData]').val(restData_length);
+
+    // $('input[name=ko]').attr('value',ko_length);
+    // $('input[name=eng_b]').attr('value',eng_b_length);
+    // $('input[name=restData]').attr('value',restData_length);
+    return total_length;
+  }
+</script>
+
+
+<body>
+<div>
+  <label for="str"> 문자열: </label>
+  <input type="text" id="str" name="str" value="" style="width: 307.2px"> <br>
+  <label for="str_length"> 자를 문자열 크기: </label>
+  <input type="text" id="str_length" name="str_length" value="" style="width: 37.2px">
+  <button type="button" id="strCheck" name="strCheck" onclick="javascript:strCheck()">확인</button><br>
+
+  <label for="ko"> 한글: </label>
+  <input type="text" id="ko" name="ko" value="" style="width: 37.2px"><br>
+  <label for="restData"> 영어 및 특수문자: </label>
+  <input type="text" id="restData" name="restData" value=""style="width: 37.2px"><br>
+  <label for="eng_b"> 영어 대문자: </label>
+  <input type="text" id="eng_b" name="eng_b" value=""style="width: 37.2px"><br>
+
+  <label for="TOTAL_LENGTH"> 문자열: </label>
+  <input type="text" id="TOTAL_LENGTH" name="TOTAL_LENGTH" value=""style="width: 37.2px"><br>
+  <label for="replace_str"> 자른 문자열: </label>
+  <input type="text" id="replace_str" name="replace_str" value=""style="width: 300.2px"><br>
+</div>
+</body>
+</html>
