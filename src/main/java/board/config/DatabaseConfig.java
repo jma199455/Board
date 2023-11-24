@@ -14,11 +14,12 @@ import org.springframework.context.annotation.PropertySource;
 
 import javax.sql.DataSource;
 
+/*
 
 @Configuration
 @PropertySource("classpath:/application.yml")
 public class DatabaseConfig {  // hikari connection pool 설정
-    /*
+
     @Autowired
     private ApplicationContext context;
 
@@ -47,5 +48,5 @@ public class DatabaseConfig {  // hikari connection pool 설정
         return new SqlSessionTemplate(sqlSessionFactory());
     }
 
-        */
 }
+*/

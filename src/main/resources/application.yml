@@ -8,10 +8,22 @@ spring:
         cache: false
   #jdbc
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/board_pt?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    #driver-class-name: org.mariadb.jdbc.Driver
+    #url: jdbc:mariadb://localhost:3306/board_pt?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    #username: root
+    #password: 123456
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mariadb://localhost:3306/board_pt?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 123456
+
+
+    #hikari:
+      #driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      #jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/board_pt?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+      #username: root
+      #password: 123456
+      #connection-test-query: SELECT NOW() FROM dual
 
 #mybatis
 mybatis:

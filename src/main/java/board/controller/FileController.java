@@ -359,6 +359,14 @@ public class FileController {
 
 
     // 파일 업로드 마지막으로 해보기
+    @GetMapping("/fileForm5")
+    public String loginForm5() {
+        log.info("=========fileForm=========");
+        return "file/check";
+    }
+
+
+    // 파일 업로드 마지막으로 해보기
     @GetMapping("/fileForm4")
     public String loginForm4(@RequestParam(required = false) String originalFileName, Model model) {
         log.info("=========fileForm=========");
@@ -395,6 +403,7 @@ public class FileController {
         model.addAttribute("originalFileName",originalFileName);
         return "file/fileUploadResult";
     }
+
 
 
 }
