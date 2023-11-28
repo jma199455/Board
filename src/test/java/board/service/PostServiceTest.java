@@ -2,6 +2,7 @@ package board.service;
 
 import board.vo.post.PostRequest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Copy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -23,5 +24,6 @@ class PostServiceTest {
         Long id = postService.savePost(params);
         System.out.println("생성된 게시글 ID : " + id);
     }
+
 
 }

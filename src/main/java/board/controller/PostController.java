@@ -2,6 +2,8 @@ package board.controller;
 
 import board.service.PostService;
 import board.vo.common.MessageDto;
+import board.vo.common.PagingResponse;
+import board.vo.common.dto.SearchDto;
 import board.vo.post.PostRequest;
 import board.vo.post.PostResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +42,9 @@ public class PostController {
 
     // 게시글 리스트 화면
     @GetMapping("/post/list.do")
-    public String openPostList(Model model){
-        List<PostResponse> posts = postService.findAllPost();
-        model.addAttribute("posts",posts);
+    public String openPostList(@ModelAttribute("params") SearchDto params, Model model){
+        PagingResponse<PostResponse> response = postService.findAllPost(params);
+        model.addAttribute("response",response);
         return "post/list";
     }
 
@@ -51,9 +53,6 @@ public class PostController {
     public String openPostView(@RequestParam Long id, Model model) {
         PostResponse post = postService.findPostById(id);
         model.addAttribute("post",post);
-        log.info("adasadsadsa {}", post);
-        System.out.println("bbbbbbbbbbbbbbb");
-
         return "post/view";
     }
 

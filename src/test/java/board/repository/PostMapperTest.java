@@ -1,5 +1,6 @@
 package board.repository;
 
+import board.service.PostService;
 import board.vo.post.PostRequest;
 import board.vo.post.PostResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +19,10 @@ class PostMapperTest {
     @Autowired
     PostMapper postMapper;
 
+    @Autowired
+    PostService postService;
+
+    /*
     @Test
     void save() {
         PostRequest params = new PostRequest();
@@ -30,7 +35,9 @@ class PostMapperTest {
         List<PostResponse> posts = postMapper.findAll();
         System.out.println("전체 게시글 개수는 : " + posts.size() + "개입니다.");
     }
+    */
 
+    /*
     @Test
     void findById() {
         PostResponse post = postMapper.findById(1L);
@@ -71,6 +78,19 @@ class PostMapperTest {
         System.out.println("삭제 이전의 전체 게시글 개수는 : " + postMapper.findAll().size() + "개입니다.");
         postMapper.deleteById(1L);
         System.out.println("삭제 이후의 전체 게시글 개수는 : " + postMapper.findAll().size() + "개입니다.");
+    }
+*/
+
+    @Test
+    void saveByForeach() {
+        for (int i = 1; i <= 1000; i++) {
+            PostRequest params = new PostRequest();
+            params.setTitle(i + "번 게시글 제목");
+            params.setContent(i + "번 게시글 내용");
+            params.setWriter("테스터" + i);
+            params.setNoticeYn(false);
+            postService.savePost(params);
+        }
     }
 
 }

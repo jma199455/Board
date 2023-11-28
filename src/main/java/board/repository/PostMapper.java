@@ -1,5 +1,6 @@
 package board.repository;
 
+import board.vo.common.dto.SearchDto;
 import board.vo.post.PostRequest;
 import board.vo.post.PostResponse;
 import org.apache.ibatis.annotations.Mapper;
@@ -39,13 +40,13 @@ public interface PostMapper {
      * 게시글 리스트 조회
      * @return 게시글 리스트
      */
-    public List<PostResponse> findAll();
+    public List<PostResponse> findAll(SearchDto params);
 
     /**
      * 게시글 수 카운팅
      * @return 게시글 수
      */
-    public int count();
+    public int count(SearchDto dto);
 
 
 }
