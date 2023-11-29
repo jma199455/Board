@@ -16,13 +16,14 @@
       <div class="search_box">
         <form id="searchForm" onsubmit="return false;" autocomplete="off">
           <div class="sch_group fl">
-            <select title="검색 유형 선택">
+            <select id="searchType" name="searchType" title="검색 유형 선택">
               <option value="">전체 검색</option>
-              <option value="">제목</option>
-              <option value="">내용</option>
+              <option value="title">제목</option>
+              <option value="content">내용</option>
+              <option value="writer">작성자</option>
             </select>
-            <input type="text" placeholder="키워드를 입력해 주세요." title="키워드 입력"/>
-            <button type="button" class="bt_search"><i class="fas fa-search"></i><span class="skip_info">검색</span></button>
+            <input type="text" id="keyword" name="keyword" placeholder="키워드를 입력해 주세요." title="키워드 입력" />
+            <button type="button" class="bt_search" onclick="movePage(1);"><i class="fas fa-search"></i><span class="skip_info">검색</span></button>
           </div>
         </form>
       </div>
@@ -68,6 +69,7 @@
 
     window.onload = () => {
       // 페이지가 로드되었을 때, 딱 한 번만 함수를 실행
+      setQueryStringParams();
       findAllPost();
     }
 
@@ -177,12 +179,20 @@
     // 페이지 이동
     function movePage(page) {
 
+    const form = document.getElementById('searchForm');
+
+      console.log(location.search);
       // 1. drawPage( )의 각 버튼에 선언된 onclick 이벤트를 통해 전달받는 page(페이지 번호)를 기준으로 객체 생성
       const queryParams = {
         page: (page) ? page : 1,
         recordSize: 10,
-        pageSize: 10
+        pageSize: 10,
+        searchType : form.searchType.value,
+        keyword : form.keyword.value,
       }
+
+      console.log(form.searchType.value);
+      console.log(form.keyword.value);
 
       /*
        * 2. location.pathname : 리스트 페이지의 URI("/post/list.do")를 의미
@@ -190,10 +200,26 @@
        *    URI + 쿼리 스트링에 해당하는 주소로 이동
        *    (해당 함수가 리턴해주는 값을 브라우저 콘솔(console)에 찍어보시면 쉽게 이해하실 수 있습니다.)
        */
-      console.log(location.pathname);
-      console.log(new URLSearchParams(queryParams).toString());
       location.href = location.pathname + '?' + new URLSearchParams(queryParams).toString();
     }
+    // 쿼리 스트링 파라미터 셋팅
+    function setQueryStringParams() {
+
+      if ( !location.search ) {
+        return false;
+      }
+
+      const form = document.getElementById('searchForm');
+
+      new URLSearchParams(location.search).forEach((value, key) => {
+        // 해당 element가 있으면
+        if (form[key]) {
+          form[key].value = value;
+        }
+      })
+    }
+
+
 
     /*]]>*/
   </script>
