@@ -52,13 +52,14 @@
                 <button type="button" id="saveBtn" onclick="savePost();" class="btns btn_st3 btn_mid">
                     <span th:if="${not #lists.isEmpty(post)}">수정</span>
                     <span th:unless="${not #lists.isEmpty(post)}">저장</span>
+
                     <!--
+                    block으로 if문 사용가능
                     <th:block th:if="${not #lists.isEmpty( post )}">수정</th:block>
                     <th:block th:if="${ #lists.isEmpty(post)}">저장</th:block>
                     -->
                 </button>
-
-                <a th:href="@{/post/list.do}" class="btns btn_bdr3 btn_mid">뒤로</a>
+                <a href="javascript:void(0);" onclick="goListPage()" class="btns btn_bdr3 btn_mid">뒤로</a>
             </p>
         </section>
     </div> <!--/* .content */-->
@@ -98,12 +99,30 @@
             document.getElementById('createdDate').value = dayjs().format('YYYY-MM-DD');
         }
 
-
         // 게시글 저장(수정)
         function savePost() {
             const form = document.getElementById('saveForm');
             const fields = [form.title, form.writer, form.content];
             const fieldNames = ['제목', '이름', '내용'];
+
+
+            // 해당 게시글이 수정된 후에 이전 페이지 정보가 유지될 수 있도록 하기 위해 파라미터 값들을 모두 hidden값으로 설정해서 넘겨준다.
+            const queryString = new URLSearchParams(location.search);
+            let idCheck = queryString.has("id");
+
+            // 수정일 경우
+            if (idCheck) {
+                queryString.delete("id");
+
+                let inputHtml = '';
+                queryString.forEach((value, key) => {
+                    inputHtml += `<input type="hidden" name="${key}" value="${value}"/>`;
+                })
+
+                $('#saveForm').append(inputHtml);
+                //document.body.append(`updateForm`);
+                //document.getElementById('updateForm').submit();
+            }
 
             for (let i = 0, len = fields.length; i < len; i++) {
                 isValid(fields[i], fieldNames[i]);
@@ -114,6 +133,16 @@
             form.action = [[ ${post == null} ]] ? '/post/save.do' : '/post/update.do';
             form.submit();
         }
+
+        // 뒤로가기 리스트 페이지 이동
+        function goListPage() {
+            const queryString = new URLSearchParams(location.search);
+            queryString.delete('id');
+            /*location.href = '/post/list.do' + '?' + queryString.toString();*/
+            location.href = `/post/list.do?${queryString.toString()}`
+        }
+
+
 
         /*]]>*/
     </script>

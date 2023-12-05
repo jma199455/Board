@@ -42,9 +42,9 @@
         </tbody>
       </table>
       <p class="btn_set">
-        <a th:href="@{/post/write.do( id=${post.id} )}" class="btns btn_bdr4 btn_mid">수정</a>
+        <button type="button" onclick="goWritePage();" class="btns btn_bdr4 btn_mid">수정</button>
         <button type="button" onclick="deletePost();" class="btns btn_bdr1 btn_mid">삭제</button>
-        <a th:href="@{/post/list.do}" class="btns btn_bdr3 btn_mid">뒤로</a>
+        <button type="button" onclick="goListPage();" class="btns btn_bdr3 btn_mid">뒤로</button>
       </p>
     </section>
 
@@ -61,9 +61,15 @@
         return false;
       }
 
+      let inputHtml = '';
+      // 해당 게시글이 삭제된 후에 이전 페이지 정보가 유지될 수 있도록 하기 위해 파라미터 값들을 모두 hidden값으로 설정해서 넘겨준다.
+      new URLSearchParams(location.search).forEach((value, key) => {
+        inputHtml += `<input type="hidden" name="${key}" value="${value}"/>`;
+      })
+
       const formHtml = `
                     <form id="deleteForm" action="/post/delete.do" method="post">
-                        <input type="hidden" id="id" name="id" value="${id}" />
+                        ${inputHtml}
                     </form>
                     `;
       const doc = new DOMParser().parseFromString(formHtml, 'text/html');
@@ -73,6 +79,20 @@
       document.getElementById('deleteForm').submit();
     }
     /*]]>*/
+
+    // 게시글 수정 페이지로 이동
+    function goWritePage(){
+      location.href = '/post/write.do' + location.search;
+    }
+
+    // 게시글 리스트 페이지로 이동
+    function goListPage() {
+      const queryString = new URLSearchParams(location.search);
+      queryString.delete('id');
+
+      location.href = '/post/list.do' + '?' + queryString.toString();
+    }
+
   </script>
 </th:block>
 

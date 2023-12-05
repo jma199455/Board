@@ -25,6 +25,7 @@
         return false;
       }
 
+      // 덤겨줄 파라미터가 없을 경우 그냥 페이지 전화만
       const redirectUri = [[ ${params.redirectUri} ]];
       console.log(redirectUri);
       location.href = redirectUri;
