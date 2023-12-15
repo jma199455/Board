@@ -15,4 +15,5 @@ public class PagingResponse<T> {
         this.list = list;
         this.pagination = pagination;
     }
+
 }
